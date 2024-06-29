@@ -39,13 +39,12 @@ initializeInput(inputWidth, 'width', 'width', 'px')
 
 // Configuração dos botões de imagem
 buttons.forEach((btn) => {
-  const elementCurrent = getLocalStorage('elementCurrent')
+  const elementCurrent = getLocalStorage('uploadedImage')
 
-  if (elementCurrent === btn.textContent) {
-    document.querySelector('.btn-image.selected')?.classList.remove('selected')
+  if (elementCurrent === btn.dataset.image) {
     btn.classList.add('selected')
   } else {
-    document.querySelector('.btn-image.selected')?.classList.remove('selected')
+    btn.classList.remove('selected')
   }
 
   btn.addEventListener('click', (e) => {
@@ -57,7 +56,6 @@ buttons.forEach((btn) => {
     document.querySelector('.btn-image.selected')?.classList.remove('selected')
     e.currentTarget.classList.add('selected')
     setLocalStorage('uploadedImage', hasImage)
-    setLocalStorage('elementCurrent', e.currentTarget.textContent)
   })
 })
 
