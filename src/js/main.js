@@ -10,56 +10,81 @@ const borderLocal = localStorage.getItem('border')
 const colorLocal = localStorage.getItem('color')
 const widthLocal = localStorage.getItem('width')
 
-imgUpload.style.borderRadius = `${borderLocal}px`
-radioBordered.value = borderLocal
+// Funções auxiliares
+const setLocalStorage = (key, value) => localStorage.setItem(key, value)
+const getLocalStorage = (key) => localStorage.getItem(key)
 
-imgUpload.style.borderColor = `${colorLocal}`
-inputColor.value = colorLocal
+const updateStyle = (property, value) => {
+  imgUpload.style[property] = value
+}
 
-imgUpload.style.width = `${widthLocal}px`
-inputWidth.value = widthLocal
+const initializeInput = (element, property, localStorageKey, unit = '') => {
+  const localStorageValue = getLocalStorage(localStorageKey)
 
-radioBordered.addEventListener('input', (e) => {
-  imgUpload.style.borderRadius = `${e.target.value}px`
-  localStorage.setItem('border', e.target.value)
-})
+  if (localStorageValue !== null) {
+    updateStyle(property, `${localStorageValue}${unit}`)
+    element.value = localStorageValue
+  }
 
-inputColor.addEventListener('input', (e) => {
-  imgUpload.style.borderColor = `${e.target.value}`
-  localStorage.setItem('color', e.target.value)
-})
+  element.addEventListener('input', (e) => {
+    updateStyle(property, `${e.target.value}${unit}`)
+    setLocalStorage(localStorageKey, e.target.value)
+  })
+}
 
-inputWidth.addEventListener('input', (e) => {
-  imgUpload.style.width = `${e.target.value}px`
-  localStorage.setItem('width', e.target.value)
-})
+// Inicialização de entradas com valores salvos no localStorage
+initializeInput(radioBordered, 'borderRadius', 'border', 'px')
+initializeInput(inputColor, 'borderColor', 'color')
+initializeInput(inputWidth, 'width', 'width', 'px')
 
+// Configuração dos botões de imagem
 buttons.forEach((btn) => {
+  const elementCurrent = getLocalStorage('elementCurrent')
+
+  if (elementCurrent === btn.textContent) {
+    document.querySelector('.btn-image.selected')?.classList.remove('selected')
+    btn.classList.add('selected')
+  } else {
+    document.querySelector('.btn-image.selected')?.classList.remove('selected')
+  }
+
   btn.addEventListener('click', (e) => {
     const hasImage = e.currentTarget.dataset.image
 
-    if (!hasImage) {
-      return
-    }
+    if (!hasImage) return
 
     imgUpload.setAttribute('src', hasImage)
     document.querySelector('.btn-image.selected')?.classList.remove('selected')
     e.currentTarget.classList.add('selected')
+    setLocalStorage('uploadedImage', hasImage)
+    setLocalStorage('elementCurrent', e.currentTarget.textContent)
   })
 })
 
+// Carregamento de imagem via input file
 inputFile.addEventListener(
   'change',
   () => {
     const reader = new FileReader()
 
-    console.log(reader)
-
     reader.onload = () => {
-      imgUpload.src = reader.result
+      const imageDataUrl = reader.result
+      imgUpload.src = imageDataUrl
+      setLocalStorage('uploadedImage', imageDataUrl)
+
+      document
+        .querySelector('.btn-image.selected')
+        ?.classList.remove('selected')
     }
 
     reader.readAsDataURL(inputFile.files[0])
   },
   false
 )
+
+// Carregar imagem do localStorage ao carregar a página
+const storedImage = getLocalStorage('uploadedImage')
+
+if (storedImage) {
+  imgUpload.src = storedImage
+}
