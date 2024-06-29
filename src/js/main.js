@@ -4,12 +4,13 @@ const form = document.querySelector('#form')
 const buttons = document.querySelectorAll('.btn-image')
 const inputColor = document.querySelector('#input-color')
 const inputWidth = document.querySelector('#input-width')
+const inputFile = document.querySelector('input[type="file"]')
 
 const borderLocal = localStorage.getItem('border')
 const colorLocal = localStorage.getItem('color')
 const widthLocal = localStorage.getItem('width')
 
-imgUpload.style.borderRadius = `${borderLocal}%`
+imgUpload.style.borderRadius = `${borderLocal}px`
 radioBordered.value = borderLocal
 
 imgUpload.style.borderColor = `${colorLocal}`
@@ -19,7 +20,7 @@ imgUpload.style.width = `${widthLocal}px`
 inputWidth.value = widthLocal
 
 radioBordered.addEventListener('input', (e) => {
-  imgUpload.style.borderRadius = `${e.target.value}%`
+  imgUpload.style.borderRadius = `${e.target.value}px`
   localStorage.setItem('border', e.target.value)
 })
 
@@ -35,8 +36,30 @@ inputWidth.addEventListener('input', (e) => {
 
 buttons.forEach((btn) => {
   btn.addEventListener('click', (e) => {
-    imgUpload.setAttribute('src', e.target.dataset.image)
+    const hasImage = e.currentTarget.dataset.image
+
+    if (!hasImage) {
+      return
+    }
+
+    imgUpload.setAttribute('src', hasImage)
     document.querySelector('.btn-image.selected')?.classList.remove('selected')
     e.currentTarget.classList.add('selected')
   })
 })
+
+inputFile.addEventListener(
+  'change',
+  () => {
+    const reader = new FileReader()
+
+    console.log(reader)
+
+    reader.onload = () => {
+      imgUpload.src = reader.result
+    }
+
+    reader.readAsDataURL(inputFile.files[0])
+  },
+  false
+)

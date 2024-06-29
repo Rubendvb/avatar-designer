@@ -65,10 +65,13 @@ body {
 
   .container-buttons {
     display: flex;
-    column-gap: 22px;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 22px;
     margin-bottom: 25px;
+    justify-content: center;
 
-    button {
+    .btn-image {
       background-color: #3498db;
       color: #fff;
       font-weight: bold;
@@ -86,6 +89,12 @@ body {
 
       &.selected {
         background-color: #ff851b;
+      }
+    }
+
+    .container-file {
+      input[type='file'] {
+        display: none;
       }
     }
   }
