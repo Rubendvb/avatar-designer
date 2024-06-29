@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./src/css/reset.css" />
+    <link rel="stylesheet" href="./src/css/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <nav class="nav">
+        <ul class="ul">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Features</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="main">
+      <h1>Avatar designer (Beginner)</h1>
+      <p>Upload your image or try one of the provided options:</p>
+
+      <img
+        id="img-upload"
+        class="img"
+        src="https://storage.googleapis.com/learn-javascript-projects/cat1.png"
+        alt=""
+      />
+
+      <div class="container-buttons">
+        <button
+          data-image="https://storage.googleapis.com/learn-javascript-projects/cat1.png"
+          class="btn-image selected"
+        >
+          Image 1
+        </button>
+        <button
+          data-image="https://storage.googleapis.com/learn-javascript-projects/cat2.jpg"
+          class="btn-image"
+        >
+          Image 2
+        </button>
+        <button
+          data-image="https://storage.googleapis.com/learn-javascript-projects/cat3.png"
+          class="btn-image"
+        >
+          Image 3
+        </button>
+      </div>
+
+      <div class="container-radio-with">
+        <div>
+          <p>Adjust border radius:</p>
+          <input
+            type="range"
+            name="radio"
+            id="input-radio"
+            min="0"
+            max="50"
+            value="20"
+          />
+        </div>
+
+        <div>
+          <p>Adjust width image:</p>
+          <input
+            type="range"
+            name="radio"
+            id="input-width"
+            class="input-width"
+            min="100"
+            max="210"
+            value="138"
+          />
+        </div>
+      </div>
+
+      <div class="container-color">
+        <p>Choose border color:</p>
+        <input type="color" name="color" id="input-color" />
+      </div>
+    </main>
+
+    <script type="module" src="/src/js/main.js"></script>
+  </body>
+</html>
